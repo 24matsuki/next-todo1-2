@@ -1,4 +1,4 @@
-import { Container, Heading } from "@chakra-ui/react";
+import { Container } from "@chakra-ui/react";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { ReactElement, useEffect } from "react";
 import { Layout } from "../../components/Layout";
@@ -14,6 +14,7 @@ import {
   statusFilterState,
   todoListState,
 } from "../../lib/todoStore";
+// import { useRequireLogin } from "../../hooks/useRequireLogin";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const q = query(collection(db, "todos"), orderBy("createdAt", "desc"));
@@ -33,6 +34,8 @@ const index: NextPageWithLayout<Props> = ({ fetchedTodoList }) => {
   const filteredTodoList = useRecoilValue(filteredTodoListState);
   const resetStatusFilter = useResetRecoilState(statusFilterState);
 
+  // useRequireLogin();
+
   useEffect(() => {
     setTodoList(fetchedTodoList);
     resetStatusFilter();
@@ -40,7 +43,6 @@ const index: NextPageWithLayout<Props> = ({ fetchedTodoList }) => {
 
   return (
     <Container maxW="4xl">
-      {/* <Heading>TODO一覧</Heading> */}
       <StatusFilter />
       <TodoList filteredTodoList={filteredTodoList} />
     </Container>
