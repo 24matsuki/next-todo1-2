@@ -24,8 +24,6 @@ export const TodoListItem: FC<Props> = ({ todoItem }) => {
     // Firestoreの更新
     const docRef = doc(db, "todos", todoItem.id);
     const status = e.target.value;
-    // これでは更新されたときの時間ではなく、この一行が実行されたときの時間だ。
-    // const updatedAt = serverTimestamp();
     await updateDoc(docRef, {
       status,
       updatedAt: serverTimestamp(),
@@ -45,10 +43,6 @@ export const TodoListItem: FC<Props> = ({ todoItem }) => {
   const handleTitleClick = () => {
     setTodoItem(todoItem);
     router.push(`/todos/${todoItem.id}`);
-    // router.push({
-    //   pathname: "/show",
-    //   query: { id: todoItem.id },
-    // });
   };
 
   return (
