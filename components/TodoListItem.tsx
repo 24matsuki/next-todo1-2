@@ -2,33 +2,38 @@ import { Flex, ListItem, Select, Text } from "@chakra-ui/react";
 import { doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 import { useSetRecoilState } from "recoil";
-import { todoListState } from "../lib/todoStore";
+import { todoItemState, todoListState } from "../lib/todoStore";
 import { EditButton } from "./EditButton";
 import { DeleteButton } from "./DeleteButton";
 import { FC } from "react";
 import { TodoItem } from "../types";
-import Link from "next/link";
+import { useRouter } from "next/router";
 
 type Props = {
   todoItem: TodoItem;
 };
 
 export const TodoListItem: FC<Props> = ({ todoItem }) => {
+  const setTodoItem = useSetRecoilState(todoItemState);
   const setTodoList = useSetRecoilState(todoListState);
+  const router = useRouter();
 
   const handleChangeStatus = async (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
     // Firestoreの更新
     const docRef = doc(db, "todos", todoItem.id);
+    const status = e.target.value;
+    // これでは更新されたときの時間ではなく、この一行が実行されたときの時間だ。
+    // const updatedAt = serverTimestamp();
     await updateDoc(docRef, {
-      status: e.target.value,
+      status,
       updatedAt: serverTimestamp(),
     });
 
     // recoilの更新
     const docSnap = await getDoc(docRef);
-    const { status, updatedAt } = docSnap.data();
+    const updatedAt = docSnap.data()?.updatedAt;
     setTodoList((oldTodoList) => {
       return oldTodoList.map((todo) => {
         if (todo === todoItem) return { ...todo, status, updatedAt };
@@ -37,11 +42,20 @@ export const TodoListItem: FC<Props> = ({ todoItem }) => {
     });
   };
 
+  const handleTitleClick = () => {
+    setTodoItem(todoItem);
+    router.push(`/todos/${todoItem.id}`);
+    // router.push({
+    //   pathname: "/show",
+    //   query: { id: todoItem.id },
+    // });
+  };
+
   return (
     <ListItem>
       <Flex gap="4">
-        <Text flex={1}>
-          <Link href={`/todos/${todoItem.id}`}>{todoItem.title}</Link>
+        <Text flex={1} cursor="pointer" onClick={handleTitleClick}>
+          {todoItem.title}
         </Text>
         <Select w="30" value={todoItem.status} onChange={handleChangeStatus}>
           <option value="notStarted">未着手</option>

@@ -7,46 +7,41 @@ import {
   Input,
   Select,
 } from "@chakra-ui/react";
-import { doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
-import { GetServerSideProps } from "next";
+import { doc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
-import { ReactElement } from "react";
+import { ReactElement, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useRecoilValue } from "recoil";
 import { Layout } from "../../../components/Layout";
 import { db } from "../../../firebase/firebase";
+import { useGetTodoItem } from "../../../hooks/useGetTodoItem";
+import { todoItemState } from "../../../lib/todoStore";
 import { TodoFormValues, TodoItem } from "../../../types";
 import { NextPageWithLayout } from "../../_app";
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const docId = params!.id;
-  const docSnap = await getDoc(doc(db, "todos", docId));
-  const data = docSnap.data();
-  const todoItem = JSON.parse(JSON.stringify(data));
-
-  return { props: { todoItem } };
-};
-
-type Props = {
-  todoItem: TodoItem;
-};
-
-const edit: NextPageWithLayout<Props> = ({ todoItem }) => {
+const Edit: NextPageWithLayout = () => {
+  const todoItem = useRecoilValue(todoItemState);
   const router = useRouter();
 
   const {
     handleSubmit,
     register,
+    setValue,
     formState: { errors, isSubmitting },
-  } = useForm({
-    defaultValues: {
-      title: todoItem.title,
-      detail: todoItem.detail,
-      status: todoItem.status,
-    },
-  });
+  } = useForm<TodoFormValues>();
+
+  useGetTodoItem();
+
+  useEffect(() => {
+    if (todoItem) {
+      setValue("title", todoItem.title);
+      setValue("detail", todoItem.detail);
+      setValue("status", todoItem.status);
+    } else console.log("!todoItem");
+  }, [todoItem]);
 
   const onSubmit: SubmitHandler<TodoFormValues> = async (data) => {
-    await updateDoc(doc(db, "todos", todoItem.id), {
+    await updateDoc(doc(db, "todos", todoItem!.id), {
       title: data.title,
       detail: data.detail,
       status: data.status,
@@ -118,8 +113,8 @@ const edit: NextPageWithLayout<Props> = ({ todoItem }) => {
   );
 };
 
-edit.getLayout = function getLayout(page: ReactElement) {
+Edit.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 
-export default edit;
+export default Edit;

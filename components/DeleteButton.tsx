@@ -16,7 +16,7 @@ export const DeleteButton: FC<Props> = ({ todoItem }) => {
   const router = useRouter();
   const setTodoList = useSetRecoilState(todoListState);
 
-  const handleClickDelete = async () => {
+  const handleClickDeleteButton = async () => {
     await deleteDoc(doc(db, "todos", todoItem.id));
     setTodoList((oldTodoList) => {
       return oldTodoList.filter((todo) => todo !== todoItem);
@@ -31,7 +31,7 @@ export const DeleteButton: FC<Props> = ({ todoItem }) => {
       aria-label="DeleteButton"
       fontSize="20px"
       icon={<DeleteIcon />}
-      onClick={handleClickDelete}
+      onClick={handleClickDeleteButton}
     />
   );
 };

@@ -19,7 +19,7 @@ export const AuthForm: FC<Props> = ({ buttonName, onSubmit }) => {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
-  } = useForm();
+  } = useForm<AuthFormValues>();
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

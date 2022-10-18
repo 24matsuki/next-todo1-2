@@ -8,7 +8,7 @@ import { AuthForm } from "../components/AuthForm";
 import { auth } from "../firebase/firebase";
 import { AuthFormValues } from "../types";
 
-const signup: NextPage = () => {
+const Signup: NextPage = () => {
   const router = useRouter();
 
   const onSubmit: SubmitHandler<AuthFormValues> = async (data) => {
@@ -35,4 +35,4 @@ const signup: NextPage = () => {
   );
 };
 
-export default signup;
+export default Signup;

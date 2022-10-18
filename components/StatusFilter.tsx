@@ -1,10 +1,15 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { Select } from "@chakra-ui/react";
-import { useSetRecoilState } from "recoil";
+import { useResetRecoilState, useSetRecoilState } from "recoil";
 import { statusFilterState } from "../lib/todoStore";
 
 export const StatusFilter: FC = () => {
   const setStatusFilter = useSetRecoilState(statusFilterState);
+  const resetStatusFilter = useResetRecoilState(statusFilterState);
+
+  useEffect(() => {
+    return () => resetStatusFilter();
+  }, []);
 
   return (
     <Select onChange={(e) => setStatusFilter(e.target.value)}>

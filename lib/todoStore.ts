@@ -1,12 +1,12 @@
 import { atom, selector } from "recoil";
 import { StatusValues, TodoItem } from "../types";
 
-// export const todoItemState = atom<TodoItem>({
-//   key: "todoItemState",
-//   default: {},
-// });
+export const todoItemState = atom<TodoItem | undefined>({
+  key: "todoItemState",
+  default: undefined,
+});
 
-export const todoListState = atom<TodoItem[]>({
+export const todoListState = atom<TodoItem[] | []>({
   // export const todoListState = atom({
   key: "todoListState",
   default: [],
@@ -28,4 +28,9 @@ export const filteredTodoListState = selector({
 
     return todoList.filter((todo) => todo.status === filter);
   },
+});
+
+export const isLoadingState = atom<boolean>({
+  key: "isLoadingState",
+  default: true,
 });

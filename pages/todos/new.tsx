@@ -11,32 +11,34 @@ import {
   addDoc,
   collection,
   doc,
+  getDoc,
   serverTimestamp,
   updateDoc,
 } from "firebase/firestore";
 import { useRouter } from "next/router";
 import React, { ReactElement } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { Layout } from "../../components/Layout";
 import { db } from "../../firebase/firebase";
+import { todoListState } from "../../lib/todoStore";
 import { userState } from "../../lib/userStore";
-import { TodoFormValues } from "../../types";
+import { TodoFormValues, TodoItem } from "../../types";
 import { NextPageWithLayout } from "../_app";
 
-const create: NextPageWithLayout = () => {
+const New: NextPageWithLayout = () => {
   const router = useRouter();
   const useUser = useRecoilValue(userState);
+  const setTodoList = useSetRecoilState(todoListState);
 
   const {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
-  } = useForm();
+  } = useForm<TodoFormValues>();
 
   const onSubmit: SubmitHandler<TodoFormValues> = async (data) => {
-    // e.preventDefault();
-
+    // Firestoreに追加
     const docRef = await addDoc(collection(db, "todos"), {
       id: null,
       title: data.title,
@@ -49,6 +51,13 @@ const create: NextPageWithLayout = () => {
     await updateDoc(doc(db, "todos", docRef.id), {
       id: docRef.id,
     });
+
+    // recoil更新
+    const docSnapshot = await getDoc(doc(db, "todos", docRef.id));
+    setTodoList((oldTodoLIst) => [
+      { ...(docSnapshot.data() as TodoItem) },
+      ...oldTodoLIst,
+    ]);
 
     router.push("/todos");
   };
@@ -115,8 +124,8 @@ const create: NextPageWithLayout = () => {
   );
 };
 
-create.getLayout = function getLayout(page: ReactElement) {
+New.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 
-export default create;
+export default New;
