@@ -20,12 +20,12 @@ export const Header: FC = () => {
     <>
       <HStack h="20" bgColor="gray.200" px="10" gap="5">
         <Heading>
-          <Link href="/todos">TODO List</Link>
+          <Link href="/">TODO List</Link>
         </Heading>
         <Spacer />
         {/* アクセスコントロールしてからまた確認 */}
         <Text>{useUser?.email}でログイン中</Text>
-        <Link href="/todos">TODO一覧</Link>
+        <Link href="/">TODO一覧</Link>
         <Link href="/todos/new">Create</Link>
         <Button onClick={handleSignOut}>Sign Out</Button>
       </HStack>

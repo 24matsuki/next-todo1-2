@@ -18,11 +18,13 @@ export const Auth: FC = () => {
           email: user.email!,
         });
         if (/^\/(signin|signup)/.test(router.asPath)) {
-          router.replace("/todos");
+          router.replace("/");
         }
       } else {
         resetUser();
-        if (/^\/todos/.test(router.asPath)) router.push("/signin");
+        [/^\/$/, /^\/todos/].forEach((regexp) => {
+          if (regexp.test(router.asPath)) router.push("/signin");
+        });
       }
     });
   }, []);

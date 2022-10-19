@@ -21,9 +21,10 @@ export const TodoListItem: FC<Props> = ({ todoItem }) => {
   const handleChangeStatus = async (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
+    const status = e.target.value;
+
     // Firestoreの更新
     const docRef = doc(db, "todos", todoItem.id);
-    const status = e.target.value;
     await updateDoc(docRef, {
       status,
       updatedAt: serverTimestamp(),

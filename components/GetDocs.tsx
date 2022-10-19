@@ -1,14 +1,21 @@
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { useEffect } from "react";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { db } from "../firebase/firebase";
 import { todoListState } from "../lib/todoStore";
+import { userState } from "../lib/userStore";
 
 export const GetDocs = () => {
   const setTodoList = useSetRecoilState(todoListState);
+  const user = useRecoilValue(userState);
 
   useEffect(() => {
-    const q = query(collection(db, "todos"), orderBy("createdAt", "desc"));
+    if (!user) return;
+    const q = query(
+      collection(db, "todos"),
+      where("uid", "==", user?.uid),
+      orderBy("createdAt", "desc")
+    );
     const setTodoListFromFirestore = async () => {
       const querySnapshot = await getDocs(q);
       const newTodoList = querySnapshot.docs.map((doc) => {
@@ -19,7 +26,7 @@ export const GetDocs = () => {
       setTodoList(newTodoList);
     };
     setTodoListFromFirestore();
-  }, []);
+  }, [user]);
 
   return null;
 };

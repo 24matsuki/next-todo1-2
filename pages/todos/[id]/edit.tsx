@@ -7,21 +7,22 @@ import {
   Input,
   Select,
 } from "@chakra-ui/react";
-import { doc, serverTimestamp, updateDoc } from "firebase/firestore";
+import { doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
 import { ReactElement, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { Layout } from "../../../components/Layout";
 import { db } from "../../../firebase/firebase";
 import { useGetTodoItem } from "../../../hooks/useGetTodoItem";
-import { todoItemState } from "../../../lib/todoStore";
+import { todoItemState, todoListState } from "../../../lib/todoStore";
 import { TodoFormValues, TodoItem } from "../../../types";
 import { NextPageWithLayout } from "../../_app";
 
 const Edit: NextPageWithLayout = () => {
   const todoItem = useRecoilValue(todoItemState);
   const router = useRouter();
+  const setTodoList = useSetRecoilState(todoListState);
 
   const {
     handleSubmit,
@@ -41,14 +42,29 @@ const Edit: NextPageWithLayout = () => {
   }, [todoItem]);
 
   const onSubmit: SubmitHandler<TodoFormValues> = async (data) => {
-    await updateDoc(doc(db, "todos", todoItem!.id), {
-      title: data.title,
-      detail: data.detail,
-      status: data.status,
+    const { title, detail, status } = data;
+
+    // Firestoreの更新
+    const docRef = doc(db, "todos", todoItem!.id);
+    await updateDoc(docRef, {
+      title,
+      detail,
+      status,
       updatedAt: serverTimestamp(),
     });
 
-    router.push("/todos");
+    // recoilの更新
+    const docSnap = await getDoc(docRef);
+    const updatedAt = docSnap.data()?.updatedAt;
+    setTodoList((oldTodoList) => {
+      return oldTodoList.map((todo) => {
+        if (todo === todoItem)
+          return { ...todo, title, detail, status, updatedAt };
+        return todo;
+      });
+    });
+
+    router.push("/");
   };
 
   return (

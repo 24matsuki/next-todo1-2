@@ -21,7 +21,7 @@ export const DeleteButton: FC<Props> = ({ todoItem }) => {
     setTodoList((oldTodoList) => {
       return oldTodoList.filter((todo) => todo !== todoItem);
     });
-    router.push(`/todos`);
+    router.push(`/`);
   };
 
   return (

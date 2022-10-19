@@ -59,7 +59,7 @@ const New: NextPageWithLayout = () => {
       ...oldTodoLIst,
     ]);
 
-    router.push("/todos");
+    router.push("/");
   };
 
   return (
