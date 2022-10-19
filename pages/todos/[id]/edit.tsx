@@ -16,7 +16,7 @@ import { Layout } from "../../../components/Layout";
 import { db } from "../../../firebase/firebase";
 import { useGetTodoItem } from "../../../hooks/useGetTodoItem";
 import { todoItemState, todoListState } from "../../../lib/todoStore";
-import { TodoFormValues, TodoItem } from "../../../types";
+import { TodoFormValues } from "../../../types";
 import { NextPageWithLayout } from "../../_app";
 
 const Edit: NextPageWithLayout = () => {
@@ -102,12 +102,7 @@ const Edit: NextPageWithLayout = () => {
         </FormControl>
         <FormControl>
           <FormLabel htmlFor="status">Status</FormLabel>
-          <Select
-            id="status"
-            {...register("status", {
-              required: "This is required",
-            })}
-          >
+          <Select id="status" {...register("status")}>
             <option value="notStarted">未着手</option>
             <option value="inProgress">進行中</option>
             <option value="finished">完了</option>
