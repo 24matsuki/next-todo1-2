@@ -28,7 +28,7 @@ const Signup: NextPage = () => {
         </Heading>
         <AuthForm buttonName={`SignUp`} onSubmit={onSubmit} />
         <Text>
-          SignUpは<Link href="/signin">こちら</Link>
+          SignInは<Link href="/signin">こちら</Link>
         </Text>
       </Box>
     </Flex>

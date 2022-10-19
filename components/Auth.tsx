@@ -3,15 +3,17 @@ import { useRouter } from "next/router";
 import { FC, useEffect } from "react";
 import { useResetRecoilState, useSetRecoilState } from "recoil";
 import { auth } from "../firebase/firebase";
+import { isLoadingState } from "../lib/store";
 import { userState } from "../lib/userStore";
 
 export const Auth: FC = () => {
   const setUser = useSetRecoilState(userState);
   const resetUser = useResetRecoilState(userState);
   const router = useRouter();
+  const setIsLoading = useSetRecoilState(isLoadingState);
 
   useEffect(() => {
-    return onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser({
           uid: user.uid,
@@ -22,11 +24,16 @@ export const Auth: FC = () => {
         }
       } else {
         resetUser();
-        [/^\/$/, /^\/todos/].forEach((regexp) => {
-          if (regexp.test(router.asPath)) router.push("/signin");
-        });
+        if (/^\/($|todos)/.test(router.asPath)) {
+          router.replace("/signin").then(() => setIsLoading(false));
+        }
+        if (/^\/(signin|signup)$/.test(router.asPath)) {
+          setIsLoading(false);
+        }
       }
     });
+
+    return () => unsubscribe();
   }, []);
 
   return null;

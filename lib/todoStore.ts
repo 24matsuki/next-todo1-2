@@ -30,7 +30,7 @@ export const filteredTodoListState = selector({
   },
 });
 
-export const isLoadingState = atom<boolean>({
-  key: "isLoadingState",
-  default: true,
-});
+// export const isLoadingState = atom<boolean>({
+//   key: "isLoadingState",
+//   default: true,
+// });

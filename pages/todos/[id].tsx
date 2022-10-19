@@ -1,4 +1,4 @@
-import { Box, Spinner, Text } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { useRecoilValue } from "recoil";
 import { DeleteButton } from "../../components/DeleteButton";
 import { EditButton } from "../../components/EditButton";
@@ -36,7 +36,7 @@ const Todo: NextPageWithLayout = () => {
       <DeleteButton todoItem={todoItem} />
     </Box>
   ) : (
-    <Spinner />
+    <Text>TODOがありません</Text>
   );
 };
 

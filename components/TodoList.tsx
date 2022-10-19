@@ -8,12 +8,7 @@ import { TodoListItem } from "./TodoListItem";
 export const TodoList: FC = () => {
   const filteredTodoList = useRecoilValue(filteredTodoListState);
 
-  if (filteredTodoList.length === 0)
-    return (
-      <Flex justify={`center`}>
-        <Spinner mt="20" size="xl" thickness="4px" color="teal" opacity="0.8" />
-      </Flex>
-    );
+  if (filteredTodoList.length === 0) return <Text>TODOがありません</Text>;
 
   return (
     <List>

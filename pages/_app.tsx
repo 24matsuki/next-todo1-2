@@ -5,6 +5,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { RecoilRoot } from "recoil";
 import { Auth } from "../components/Auth";
 import { GetDocs } from "../components/GetDocs";
+import { Loading } from "../components/Loading";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -22,7 +23,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       <RecoilRoot>
         <Auth />
         <GetDocs />
-        {getLayout(<Component {...pageProps} />)}
+        <Loading>{getLayout(<Component {...pageProps} />)}</Loading>
       </RecoilRoot>
     </ChakraProvider>
   );
