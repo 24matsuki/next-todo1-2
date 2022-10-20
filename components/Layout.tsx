@@ -1,6 +1,5 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Container } from "@chakra-ui/react";
 import { FC, ReactNode } from "react";
-import { Footer } from "./Footer";
 import { Header } from "./Header";
 
 type Props = {
@@ -9,10 +8,11 @@ type Props = {
 
 export const Layout: FC<Props> = ({ children }) => {
   return (
-    <Box h="100vh">
+    <Box>
       <Header />
-      {children}
-      <Footer />
+      <Container pt="20" maxW="lg">
+        {children}
+      </Container>
     </Box>
   );
 };

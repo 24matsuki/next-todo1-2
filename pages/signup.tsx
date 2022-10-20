@@ -1,7 +1,7 @@
-import { Box, Flex, Heading, Text } from "@chakra-ui/react";
+import { Center, Heading, Link, Stack, Text } from "@chakra-ui/react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { NextPage } from "next";
-import Link from "next/link";
+import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { SubmitHandler } from "react-hook-form";
 import { AuthForm } from "../components/AuthForm";
@@ -21,17 +21,20 @@ const Signup: NextPage = () => {
   };
 
   return (
-    <Flex justify="center" h="100vh" align="center" bgColor="gray.800">
-      <Box p="14" rounded="lg" bgColor="gray.700" color="gray.100" w="md">
+    <Center h="100vh">
+      <Stack spacing="4" p="14" rounded="lg" w="md">
         <Heading mb="4" textAlign="center">
-          SignUp
+          Sign Up
         </Heading>
-        <AuthForm buttonName={`SignUp`} onSubmit={onSubmit} />
-        <Text>
-          SignInは<Link href="/signin">こちら</Link>
+        <AuthForm buttonName="Sign Up" onSubmit={onSubmit} />
+        <Text align="center">
+          Sign In は
+          <NextLink href="/signin" passHref>
+            <Link color="pink.400">こちら</Link>
+          </NextLink>
         </Text>
-      </Box>
-    </Flex>
+      </Stack>
+    </Center>
   );
 };
 

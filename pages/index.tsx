@@ -1,16 +1,21 @@
-import { Container } from "@chakra-ui/react";
+import { HStack, Spacer } from "@chakra-ui/react";
 import { ReactElement } from "react";
 import { Layout } from "../components/Layout";
 import { TodoList } from "../components/TodoList";
 import { NextPageWithLayout } from "./_app";
 import { StatusFilter } from "../components/StatusFilter";
+import { CreateButton } from "../components/CreateButton";
 
 const Todos: NextPageWithLayout = () => {
   return (
-    <Container maxW="4xl">
-      <StatusFilter />
+    <>
+      <HStack pt="4">
+        <CreateButton />
+        <Spacer />
+        <StatusFilter />
+      </HStack>
       <TodoList />
-    </Container>
+    </>
   );
 };
 

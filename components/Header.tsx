@@ -1,4 +1,5 @@
-import { Button, Heading, HStack, Spacer, Text } from "@chakra-ui/react";
+import { ArrowRightIcon } from "@chakra-ui/icons";
+import { Box, Button, Heading, HStack, Spacer, Text } from "@chakra-ui/react";
 import { signOut } from "firebase/auth";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -17,18 +18,27 @@ export const Header: FC = () => {
   };
 
   return (
-    <>
-      <HStack h="20" bgColor="gray.200" px="10" gap="5">
+    <Box pos="fixed" top="0" w="full" left="0" zIndex="1">
+      <HStack h="20" bgColor="blue.900" px="10" gap="5">
         <Heading>
-          <Link href="/">TODO List</Link>
+          <Link href="/">TODOList</Link>
         </Heading>
         <Spacer />
-        {/* アクセスコントロールしてからまた確認 */}
-        <Text>{useUser?.email}でログイン中</Text>
-        <Link href="/">TODO一覧</Link>
-        <Link href="/todos/new">Create</Link>
-        <Button onClick={handleSignOut}>Sign Out</Button>
+        <Box textAlign="end">
+          <Text>{useUser?.email}</Text>
+          <Text>でログイン中</Text>
+        </Box>
+        <Button
+          colorScheme="pink"
+          variant="outline"
+          rounded="sm"
+          _hover={{ bgColor: "blue.940" }}
+          onClick={handleSignOut}
+        >
+          Sign Out
+          <ArrowRightIcon ml={2} w={3} />
+        </Button>
       </HStack>
-    </>
+    </Box>
   );
 };

@@ -21,10 +21,13 @@ export const EditButton: FC<Props> = ({ todoItem }) => {
 
   return (
     <IconButton
-      variant="outline"
-      colorScheme="teal"
+      variant="unstyled"
       aria-label="EditButton"
       fontSize="20px"
+      color="gray.300"
+      _hover={{
+        color: "white",
+      }}
       icon={<EditIcon />}
       onClick={handleEditClick}
     />

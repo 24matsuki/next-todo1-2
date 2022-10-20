@@ -26,10 +26,13 @@ export const DeleteButton: FC<Props> = ({ todoItem }) => {
 
   return (
     <IconButton
-      variant="outline"
-      colorScheme="teal"
-      aria-label="DeleteButton"
+      variant="unstyled"
+      aria-label="EditButton"
       fontSize="20px"
+      color="gray.300"
+      _hover={{
+        color: "white",
+      }}
       icon={<DeleteIcon />}
       onClick={handleClickDeleteButton}
     />

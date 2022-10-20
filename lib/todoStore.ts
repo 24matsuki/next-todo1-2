@@ -7,7 +7,6 @@ export const todoItemState = atom<TodoItem | undefined>({
 });
 
 export const todoListState = atom<TodoItem[] | []>({
-  // export const todoListState = atom({
   key: "todoListState",
   default: [],
 });
@@ -29,8 +28,3 @@ export const filteredTodoListState = selector({
     return todoList.filter((todo) => todo.status === filter);
   },
 });
-
-// export const isLoadingState = atom<boolean>({
-//   key: "isLoadingState",
-//   default: true,
-// });

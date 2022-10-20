@@ -1,23 +1,15 @@
-import { Box, Flex, Heading, Text } from "@chakra-ui/react";
+import { Center, Heading, Link, Stack, Text } from "@chakra-ui/react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { NextPage } from "next";
-import Link from "next/link";
+import NextLink from "next/link";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 import { SubmitHandler } from "react-hook-form";
-import { useRecoilState, useSetRecoilState } from "recoil";
 import { AuthForm } from "../components/AuthForm";
 import { auth } from "../firebase/firebase";
-import { isLoadingState } from "../lib/store";
 import { AuthFormValues } from "../types";
 
 const Signin: NextPage = () => {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useRecoilState(isLoadingState);
-
-  // useEffect(() => {
-  //   setIsLoading(false);
-  // }, []);
 
   const onSubmit: SubmitHandler<AuthFormValues> = async (data) => {
     try {
@@ -29,17 +21,20 @@ const Signin: NextPage = () => {
   };
 
   return (
-    <Flex justify="center" h="100vh" align="center" bgColor="gray.800">
-      <Box p="14" rounded="lg" bgColor="gray.700" color="gray.100" w="md">
+    <Center h="100vh">
+      <Stack spacing="4" p="14" rounded="lg" w="md">
         <Heading mb="4" textAlign="center">
-          SignIn
+          Sign In
         </Heading>
-        <AuthForm buttonName={`SignIn`} onSubmit={onSubmit} />
-        <Text>
-          SignUpは<Link href="/signup">こちら</Link>
+        <AuthForm buttonName="Sign In" onSubmit={onSubmit} />
+        <Text align="center">
+          Sign Up は
+          <NextLink href="/signup" passHref>
+            <Link color="pink.400">こちら</Link>
+          </NextLink>
         </Text>
-      </Box>
-    </Flex>
+      </Stack>
+    </Center>
   );
 };
 

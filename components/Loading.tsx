@@ -1,4 +1,4 @@
-import { Flex, Spinner } from "@chakra-ui/react";
+import { Center, Spinner } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { FC, ReactNode, useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
@@ -32,9 +32,9 @@ export const Loading: FC<Props> = ({ children }) => {
 
   // return loading || isLoading ? (
   return isLoading ? (
-    <Flex h="100vh" justify={`center`} align={`center`}>
-      <Spinner size="xl" thickness="4px" color="teal" opacity="0.8" />
-    </Flex>
+    <Center h="100vh">
+      <Spinner size="xl" thickness="4px" color="pink.500" opacity="0.8" />
+    </Center>
   ) : (
     <>{children}</>
   );
