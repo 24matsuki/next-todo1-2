@@ -14,7 +14,7 @@ const Signup: NextPage = () => {
   const onSubmit: SubmitHandler<AuthFormValues> = async (data) => {
     try {
       await createUserWithEmailAndPassword(auth, data.email, data.password);
-      router.push("/todos");
+      router.push("/");
     } catch (error: any) {
       alert(error.message);
     }
