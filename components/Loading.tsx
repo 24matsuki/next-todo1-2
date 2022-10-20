@@ -12,26 +12,26 @@ export const Loading: FC<Props> = ({ children }) => {
   const isLoading = useRecoilValue(isLoadingState);
 
   // routerのloading
-  // const router = useRouter();
-  // const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
-  // useEffect(() => {
-  //   const handleStart = () => setLoading(true);
-  //   const handleComplete = () => setLoading(false);
+  useEffect(() => {
+    const handleStart = () => setLoading(true);
+    const handleComplete = () => setLoading(false);
 
-  //   router.events.on("routeChangeStart", handleStart);
-  //   router.events.on("routeChangeComplete", handleComplete);
-  //   router.events.on("routeChangeError", handleComplete);
+    router.events.on("routeChangeStart", handleStart);
+    router.events.on("routeChangeComplete", handleComplete);
+    router.events.on("routeChangeError", handleComplete);
 
-  //   return () => {
-  //     router.events.off("routeChangeStart", handleStart);
-  //     router.events.off("routeChangeComplete", handleComplete);
-  //     router.events.off("routeChangeError", handleComplete);
-  //   };
-  // });
+    return () => {
+      router.events.off("routeChangeStart", handleStart);
+      router.events.off("routeChangeComplete", handleComplete);
+      router.events.off("routeChangeError", handleComplete);
+    };
+  });
 
-  // return loading || isLoading ? (
-  return isLoading ? (
+  return loading || isLoading ? (
+    // return isLoading ? (
     <Center h="100vh">
       <Spinner size="xl" thickness="4px" color="pink.500" opacity="0.8" />
     </Center>

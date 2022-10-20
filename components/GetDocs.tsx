@@ -15,15 +15,15 @@ export const GetDocs = () => {
     if (!user) return;
     const q = query(
       collection(db, "todos"),
+      // 変更したらインデックスを作成すること。
       where("uid", "==", user.uid),
       orderBy("createdAt", "desc")
     );
     const setTodoListFromFirestore = async () => {
       const querySnapshot = await getDocs(q);
       const newTodoList = querySnapshot.docs.map((doc) => {
-        const { id, title, detail, status, createdAt, updatedAt, uid } =
-          doc.data();
-        return { id, title, detail, status, createdAt, updatedAt, uid };
+        const { title, detail, status, createdAt, updatedAt, uid } = doc.data();
+        return { id: doc.id, title, detail, status, createdAt, updatedAt, uid };
       });
       setTodoList(newTodoList);
     };

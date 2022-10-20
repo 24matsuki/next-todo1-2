@@ -7,6 +7,7 @@ import { FC } from "react";
 import { useSetRecoilState } from "recoil";
 import { todoListState } from "../lib/todoStore";
 import { TodoItem } from "../types";
+import { isLoadingState } from "../lib/store";
 
 type Props = {
   todoItem: TodoItem;
@@ -15,8 +16,10 @@ type Props = {
 export const DeleteButton: FC<Props> = ({ todoItem }) => {
   const router = useRouter();
   const setTodoList = useSetRecoilState(todoListState);
+  const setIsLoading = useSetRecoilState(isLoadingState);
 
   const handleClickDeleteButton = async () => {
+    // setIsLoading(true);
     await deleteDoc(doc(db, "todos", todoItem.id));
     setTodoList((oldTodoList) => {
       return oldTodoList.filter((todo) => todo !== todoItem);

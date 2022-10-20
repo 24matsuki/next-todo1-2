@@ -30,7 +30,7 @@ export const AuthForm: FC<Props> = ({ buttonName, onSubmit }) => {
         <FormControl isInvalid={Boolean(errors.email)}>
           <InputGroup>
             <InputLeftElement pointerEvents="none">
-              children={<EmailIcon color="gray.300" />}
+              <EmailIcon color="gray.300" />
             </InputLeftElement>
             <Input
               id="email"
@@ -55,7 +55,7 @@ export const AuthForm: FC<Props> = ({ buttonName, onSubmit }) => {
         <FormControl mt="4" isInvalid={Boolean(errors.password)}>
           <InputGroup>
             <InputLeftElement pointerEvents="none">
-              children={<LockIcon color="gray.300" />}
+              <LockIcon color="gray.300" />
             </InputLeftElement>
             <Input
               id="password"

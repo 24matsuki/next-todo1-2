@@ -7,6 +7,7 @@ import { Auth } from "../components/Auth";
 import { GetDocs } from "../components/GetDocs";
 import { Loading } from "../components/Loading";
 import { theme } from "../styles/theme";
+import { DocChanges } from "../components/DocChanges";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -24,6 +25,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       <RecoilRoot>
         <Auth />
         <GetDocs />
+        {/* <DocChanges /> */}
         <Box bgColor={`blue.950`} color="gray.200" minH="100vh">
           <Loading>{getLayout(<Component {...pageProps} />)}</Loading>
         </Box>

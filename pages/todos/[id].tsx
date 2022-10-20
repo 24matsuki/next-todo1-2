@@ -1,4 +1,14 @@
-import { Box, Text } from "@chakra-ui/react";
+import {
+  Table,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  TableContainer,
+  HStack,
+  Spacer,
+} from "@chakra-ui/react";
 import { useRecoilValue } from "recoil";
 import { DeleteButton } from "../../components/DeleteButton";
 import { EditButton } from "../../components/EditButton";
@@ -12,31 +22,45 @@ const Todo: NextPageWithLayout = () => {
 
   useGetTodoItem();
 
-  return todoItem ? (
-    <Box>
-      <Text>Title: {todoItem.title}</Text>
-      <Text>Detail: {todoItem.detail}</Text>
-      <Text>Created: {todoItem.createdAt.toDate().toLocaleString()}</Text>
-      {/* <Text>
-        Created: {new Date(todoItem.createdAt?.seconds * 1000).toLocaleString()}
-      </Text> */}
-      <Text>
-        Updated:{" "}
-        {todoItem.updatedAt
-          ? todoItem.updatedAt.toDate().toLocaleString()
-          : "-----"}
-      </Text>
-      {/* <Text>
-        Updated:{" "}
-        {todoItem.updatedAt
-          ? new Date(todoItem.updatedAt?.seconds * 1000).toLocaleString()
-          : "-----"}
-      </Text> */}
-      <EditButton todoItem={todoItem} />
-      <DeleteButton todoItem={todoItem} />
-    </Box>
-  ) : (
-    <Text>TODOがありません</Text>
+  return (
+    <>
+      <TableContainer>
+        <Table variant="simple">
+          <TableCaption placement="top">TODO 詳細画面</TableCaption>
+          <Tbody>
+            <Tr>
+              <Th>Title</Th>
+              <Td>{todoItem?.title}</Td>
+            </Tr>
+            <Tr>
+              <Th>Detail</Th>
+              <Td>{todoItem?.detail}</Td>
+            </Tr>
+            <Tr>
+              <Th>Status</Th>
+              <Td>{todoItem?.status}</Td>
+            </Tr>
+            <Tr>
+              <Th>CreatedAt</Th>
+              <Td>{todoItem?.createdAt?.toDate().toLocaleString()}</Td>
+            </Tr>
+            <Tr>
+              <Th>UpdatedAt</Th>
+              <Td>
+                {todoItem?.updatedAt
+                  ? todoItem?.updatedAt.toDate().toLocaleString()
+                  : "-----"}
+              </Td>
+            </Tr>
+          </Tbody>
+        </Table>
+      </TableContainer>
+      <HStack pt="2">
+        <Spacer />
+        <EditButton todoItem={todoItem!} />
+        <DeleteButton todoItem={todoItem!} />
+      </HStack>
+    </>
   );
 };
 
